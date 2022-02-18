@@ -1,0 +1,260 @@
+////// pin - SDA - GPIO 21, SCL- GPIO22  default
+
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <WiFiClient.h>
+#include <Wire.h>
+#include <Adafruit_AMG88xx.h>
+#include <TFT_eSPI.h> // Graphics and font library for ILI9341 driver chip
+#include <SPI.h>
+#include "OneButton.h"
+
+#define TFT_GREY 0x5AEB // New colour
+
+TFT_eSPI tft = TFT_eSPI();  // Invoke library
+
+const char* ssid = "YOUR_SSID"; // your Wi-Fi id
+const char* password = "YOUR_PASSWORD";  // your Wi-Fi password
+
+int note_num = random(999999); // unique No start        
+
+WiFiClient client;
+
+// REPLACE with your Domain name and URL path or IP address with path
+const char* serverName = "http://xxx.org/xxxxxxxx.php"; 
+String apiKeyValue = "xxxxxxxxxxxx";  // replace with your api key value
+
+unsigned long p_time = 0; // save previous mills
+unsigned long off_time = 0; // save previous mills
+const int amg_time = 5000;  //amg sensor interval setting
+const int text_time = 10000;  // numbering of uniq number during off 
+
+Adafruit_AMG88xx amg;
+
+float pixels[AMG88xx_PIXEL_ARRAY_SIZE];
+
+// button action
+typedef enum {
+  ACTION_OFF,  // set LED "OFF".
+  ACTION_ON,   // set LED "ON"
+} 
+MyActions;
+
+#define PIN_INPUT 18
+
+// Setup a new OneButton   
+OneButton button(PIN_INPUT, true);
+
+MyActions nextAction = ACTION_OFF; // no action when starting
+
+// setup code here, to run once.
+void setup() {
+  
+    Serial.begin(115200);
+    // create random number
+    randomSeed(analogRead(0));
+    // link the myClickFunction function to be called on a click event.   
+    button.attachClick(myClickFunction);
+  
+    // set 80 msec. debouncing time. Default is 50 msec.
+    button.setDebounceTicks(80);
+    
+    randomSeed(analogRead(0));  
+    // Initialize TFT
+    tft.init();
+    tft.setRotation(1);
+    tft.fillScreen(TFT_GREY);
+    tft.setCursor(3, 0, 1);
+    tft.println();
+    tft.setTextColor(TFT_YELLOW); tft.setTextFont(4);  
+    tft.println("Welcome to NCHM");
+  
+    // Initialize Wifi  
+    Wire.begin();
+    WiFi.begin(ssid, password);
+    WiFi.mode(WIFI_STA);
+
+    Serial.println(F("AMG88xx pixels"));
+    bool status;
+    
+    // Wait for connection
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+      }
+    Serial.println("");
+    Serial.print("Connected to ");
+    Serial.println(ssid);
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+  
+  // default settings
+   status = amg.begin();
+  if (!status) {
+    Serial.println("Could not find a valid AMG88xx sensor, check wiring!");
+    while (1);
+     }
+  Serial.println("-- Pixels Test --");
+  Serial.println();
+  delay(100); // let sensor boot up
+  
+} // setup
+
+
+// main code here, to run repeatedly: 
+void loop() {
+  if(WiFi.status()== WL_CONNECTED){
+  // button setup start   
+  unsigned long now = millis();
+
+  // keep watching the push button:
+  button.tick();
+
+  
+  HTTPClient http;
+  // Your Domain name with URL path or IP address with path
+  http.begin(serverName);
+  // Specify content-type header
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");    
+  
+
+  // device action off // on
+  if ((nextAction == ACTION_OFF) && (now - off_time >= text_time)) {
+      note_num ++;
+      off_time = now;    
+      // turn off
+      Serial.println(note_num);
+      Serial.println("Acction OFF");
+      tft.fillScreen(TFT_GREY);
+      tft.setCursor(3, 0, 1);
+      tft.println();
+      tft.setTextColor(TFT_YELLOW); tft.setTextFont(4);  
+      tft.print("  Thanks   ");
+  
+    
+  } else if ((nextAction == ACTION_ON)  && (now - p_time >= amg_time)) {
+      p_time = now;    
+    // shows note on TFT-LCD
+    Serial.print(note_num);    
+    Serial.println("Acction ON");
+    
+    // readPixels via amg8833 sensor
+    amg.readPixels(pixels);
+   
+    // set collected 8x8 data as SQL format
+   String httpRequestData = "api_key=" + apiKeyValue + "&unique_no=" + String(note_num)
+                          + "&a0=" + String(pixels[0]) + "&a1=" + String(pixels[1]) + "&a2=" + String(pixels[2]) + "&a3=" + String(pixels[3]) + "&a4=" + String(pixels[4]) 
+                          + "&a5=" + String(pixels[5]) + "&a6=" + String(pixels[6]) + "&a7=" + String(pixels[7]) + "&a8=" + String(pixels[8]) + "&a9=" + String(pixels[9]) 
+                          + "&a10=" + String(pixels[10]) + "&a11=" + String(pixels[11]) + "&a12=" + String(pixels[12]) + "&a13=" + String(pixels[13]) + "&a14=" + String(pixels[14])
+                          + "&a15=" + String(pixels[15]) + "&a16=" + String(pixels[16]) + "&a17=" + String(pixels[17]) + "&a18=" + String(pixels[18]) + "&a19=" + String(pixels[19]) 
+                          + "&a20=" + String(pixels[20]) + "&a21=" + String(pixels[21]) + "&a22=" + String(pixels[22]) + "&a23=" + String(pixels[23]) + "&a24=" + String(pixels[24]) 
+                          + "&a25=" + String(pixels[25]) + "&a26=" + String(pixels[26]) + "&a27=" + String(pixels[27]) + "&a28=" + String(pixels[28]) + "&a29=" + String(pixels[29]) 
+                          + "&a30=" + String(pixels[30]) + "&a31=" + String(pixels[31]) + "&a32=" + String(pixels[32]) + "&a33=" + String(pixels[33]) + "&a34=" + String(pixels[34])
+                          + "&a35=" + String(pixels[35]) + "&a36=" + String(pixels[36]) + "&a37=" + String(pixels[37]) + "&a38=" + String(pixels[38]) + "&a39=" + String(pixels[39]) 
+                          + "&a40=" + String(pixels[40]) + "&a41=" + String(pixels[41]) + "&a42=" + String(pixels[42]) + "&a43=" + String(pixels[43]) + "&a44=" + String(pixels[44]) 
+                          + "&a45=" + String(pixels[45]) + "&a46=" + String(pixels[46]) + "&a47=" + String(pixels[47]) + "&a48=" + String(pixels[48]) + "&a49=" + String(pixels[49])
+                          + "&a50=" + String(pixels[50]) + "&a51=" + String(pixels[51]) + "&a52=" + String(pixels[52]) + "&a53=" + String(pixels[53]) + "&a54=" + String(pixels[54])
+                          + "&a55=" + String(pixels[55]) + "&a56=" + String(pixels[56]) + "&a57=" + String(pixels[57]) + "&a58=" + String(pixels[58]) + "&a59=" + String(pixels[59]) 
+                          + "&a60=" + String(pixels[60]) + "&a61=" + String(pixels[61]) + "&a62=" + String(pixels[62]) + "&a63=" + String(pixels[63]) + "";                        
+  
+  Serial.print("httpRequestData: ");
+  Serial.println(httpRequestData);  
+  // Send HTTP POST request
+  int httpResponseCode = http.POST(httpRequestData);
+
+    if (httpResponseCode>0) {
+      Serial.print("A_HTTP Response code: ");
+      Serial.println(httpResponseCode);
+    }
+    else {
+      Serial.print("A_Error code: ");
+      Serial.println(httpResponseCode);
+    }
+    // Free resources
+    http.end();
+
+      
+    // min/max for LCD
+    float maxT = -99.9;    
+    float minT = 100.1;    
+    for(int i=0; i<AMG88xx_PIXEL_ARRAY_SIZE; i++){
+       // minT and maxT of 64
+        if(pixels[i]>= maxT){
+         maxT = pixels[i];
+              }
+        if(pixels[i]<= minT){
+         minT = pixels[i];
+          }
+    }  
+  // Fill screen with grey so we can see the effect of printing with and without 
+  // a background colour defined
+  tft.fillScreen(TFT_GREY);
+  tft.setCursor(0, 0, 1);
+     
+// print data on TFT LCD
+  tft.println();
+  tft.setTextColor(TFT_YELLOW); tft.setTextFont(4);  
+  tft.print(note_num); 
+
+  tft.println();
+
+  tft.setTextColor(TFT_WHITE);   tft.setTextFont(2);  
+  
+  for(int i=1; i<=AMG88xx_PIXEL_ARRAY_SIZE; i++){
+    Serial.print(pixels[i-1],1);
+    Serial.print(", ");
+      if ( 50 > pixels[i-1] && pixels[i-1] > 30){
+        tft.setTextColor(TFT_GREEN);
+        tft.print(pixels[i-1],1);
+      }
+      else if (70 > pixels[i-1] && pixels[i-1] >= 50) {
+        tft.setTextColor(TFT_YELLOW);
+        tft.print(pixels[i-1],1);
+      }
+      else if ( 80 > pixels[i-1] && pixels[i-1] >= 70) {
+        tft.setTextColor(TFT_ORANGE);
+        tft.print(pixels[i-1],1);
+      }
+      else if (90 > pixels[i-1] && pixels[i-1] >= 80) {
+        tft.setTextColor(TFT_MAGENTA);
+        tft.print(pixels[i-1],1);
+      }
+      else if (pixels[i-1] >= 90) {
+        tft.setTextColor(TFT_RED);
+        tft.print(pixels[i-1],1);
+      }
+      else {
+        tft.setTextColor(TFT_WHITE);
+        tft.print(pixels[i-1],1);
+      }
+      tft.print(", ");
+      if( i%8 == 0 ) tft.println();
+      if( i%8 == 0 ) Serial.println();
+  }
+    tft.println();
+    tft.setTextColor(TFT_BLUE); tft.setTextFont(4);  
+    tft.print("   "); tft.print(minT); 
+    tft.setTextColor(TFT_RED); tft.setTextFont(4);  
+    tft.print("   "); tft.println(maxT); 
+    tft.println();
+    
+    // print min/max temp on Serial
+    Serial.println(minT);
+    Serial.println(maxT);
+
+    client.stop();
+
+  } 
+  } // check if wifi  connection
+    else {
+    Serial.println("WiFi Disconnected");
+  }
+} // loop
+
+
+void myClickFunction() {
+  if (nextAction == ACTION_OFF)
+    nextAction = ACTION_ON;
+  else
+    nextAction = ACTION_OFF;
+} // myClickFunction
