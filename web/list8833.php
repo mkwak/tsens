@@ -64,7 +64,7 @@ while($row = $result->fetch_array())
 	$output.= "<TR><TD><A HREF=$_PHP_SELF?no=$no>$no</A></TD>";
 	$output.= "<TD>".$row['CNT']."</TD>";
 	$output.= "<TD>".substr($row['RECENT'], 0, -3)."</TD>";
-	$output.= "<TD><A HREF=\"img8833.php?no=".$no."\" target=\"graph\"><IMG width=24 height=24 SRC=\"/img/ico_graph.png\"></A></TD>\n";
+	$output.= "<TD><A HREF=\"img8833.php?no=".$no."\" target=\"graph\"><IMG width=24 height=24 SRC=\"ico_graph.png\"></A></TD>\n";
 	if ($no == $_GET['no']) $output.= "<TD align=center><A HREF=\"heatmap8833.php?no=".$no."&nf=".$row['CNT']."$range_T\" target=\"heatmap\">8x8 eyes<BR>$lowest~$highest&deg;C</A></TD></TR>\n";
 	else $output.= "<TD>not selected</TD></TR>\n";
 }
