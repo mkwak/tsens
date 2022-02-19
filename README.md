@@ -1,6 +1,8 @@
 # tsens
 uses AMG8833 Grid-EYE thermal sensor to monitor an object
 
+for an example, visit http://mkwak.org/tsens/list8833.php?no=529471
+
 # installation [device]
 1. assemble parts for the thermal sensor - put published article's DOI here
 2. edit line 16-17 of 'amg8833atMCU' with your own wi-fi setting
