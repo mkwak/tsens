@@ -7,10 +7,10 @@ uses AMG8833 Grid-EYE thermal sensor to monitor an object
 3. upload the code to your MCU borad
 4. turning power on will start measurement of temperature
 
-# installation [database]
-1. on MySQL of MariaDB, run schema.sql to create table
+# installation [mysql]
+1. on MySQL (or MariaDB), run 'schema.sql' to create table
 
-# installation [interface]
+# installation [web]
 1. copy all files to a php-enabled folder with access
 2. make 'images' folder with write permission for all (chmod 777)
 3. edit 'mysql_setting.php' with your server account
