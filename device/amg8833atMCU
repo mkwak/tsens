@@ -21,7 +21,7 @@ int note_num = random(999999); // unique No start
 WiFiClient client;
 
 // REPLACE with your Domain name and URL path or IP address with path
-const char* serverName = "http://xxx.org/xxxxxxxx.php"; 
+const char* serverName = "http://yourdomain.com/folder/insert8833.php"; 
 String apiKeyValue = "tPmAT5Ab3j7F9";  // replace with your api key value if necessary
 
 unsigned long p_time = 0; // save previous mills
