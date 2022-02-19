@@ -21,6 +21,7 @@ for an example, visit http://mkwak.org/tsens/list8833.php?no=529471
 4. run 'list8833.php' to navigate recorded data
 
 # further notes
+  * developed and tested under PHP 7 (GD enabled), mysql 8, and Apache 2
   * total number of recording less than 60 won't be visible on the list page (line 10 on 'list8833.php')  
 
 # etc
