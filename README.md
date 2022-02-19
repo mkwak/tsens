@@ -11,7 +11,7 @@ For an example of operation, visit http://mkwak.org/tsens/list8833.php?no=529471
 6. Turning its power on will start measurement of temperature
 
 # Installation [mysql]
-1. On MySQL (or MariaDB), run 'schema.sql' to create table
+1. On MySQL (or MariaDB), run 'schema.sql' to create an empty table
 
 # Installation [web]
 1. Copy all files to a php-enabled folder with access
