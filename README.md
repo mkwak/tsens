@@ -22,8 +22,5 @@ For an example of operation, visit http://mkwak.org/tsens/list8833.php?no=529471
 # Notes
   * Developed and tested under PHP 7 (GD enabled), MySQL 8, and Apache 2 on Ubuntu 20.04
   * Total number of recording less than 60 won't be visible on the list page (line 10 on 'list8833.php')  
-
-# etc
-  * Tip#1: Use imageMagick to generated animated GIF files. 
-    $ convert -delay 20 -loop 0 717736_*.png 717736_movie.gif
+  * Tip#1: Use imageMagick to generated animated GIF files. On command line interface: $ convert -delay 20 -loop 0 529471_*.png 529471_movie.gif
   * Bug: eyes8833.php does not run on PHP 5
