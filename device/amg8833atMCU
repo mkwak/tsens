@@ -22,7 +22,7 @@ WiFiClient client;
 
 // REPLACE with your Domain name and URL path or IP address with path
 const char* serverName = "http://xxx.org/xxxxxxxx.php"; 
-String apiKeyValue = "xxxxxxxxxxxx";  // replace with your api key value
+String apiKeyValue = "tPmAT5Ab3j7F9";  // replace with your api key value if necessary
 
 unsigned long p_time = 0; // save previous mills
 unsigned long off_time = 0; // save previous mills
