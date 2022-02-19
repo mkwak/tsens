@@ -26,3 +26,4 @@ For an example of operation, visit http://mkwak.org/tsens/list8833.php?no=529471
 # etc
   * Tip#1: Use imageMagick to generated animated GIF files. 
     $ convert -delay 20 -loop 0 717736_*.png 717736_movie.gif
+  * Bug: eyes8833.php does not run on PHP 5
