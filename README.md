@@ -3,7 +3,7 @@ uses AMG8833 Grid-EYE thermal sensor to monitor an object
 
 # installation [device]
 1. assemble parts for the thermal sensor - put published article's DOI here
-2. edit 'amg8833atMCU' with your own wi-fi setting
+2. edit 'amg8833atMCU' with your own wi-fi setting and recording interval
 3. upload the code to your MCU borad
 4. turning power on will start measurement of temperature
 
