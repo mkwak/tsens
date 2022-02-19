@@ -1,30 +1,28 @@
 # tsens
-uses AMG8833 Grid-EYE thermal sensor to monitor an object
+One can use AMG8833 Grid-EYE thermal sensor to monitor an object.
+For an example of operation, visit http://mkwak.org/tsens/list8833.php?no=529471
 
-for an example, visit http://mkwak.org/tsens/list8833.php?no=529471
+# Installation [device]
+1. Assemble parts for the thermal sensor - put published article's DOI here
+2. Edit line 16-17 of 'amg8833atMCU' with your own wi-fi setting
+3. Edit line 24 of 'amg8833atMCU' with your own web address for sending T-values
+4. Edit line 29 of 'amg8833atMCU' with your own recording interval (amg_time = 5000, default is 5 second)
+5. Upload the code to your MCU board
+6. Turning its power on will start measurement of temperature
 
-# installation [device]
-1. assemble parts for the thermal sensor - put published article's DOI here
-2. edit line 16-17 of 'amg8833atMCU' with your own wi-fi setting
-3. edit line 24 of 'amg8833atMCU' with your own web address for sending T-values
-4. edit line 29 of 'amg8833atMCU' with your own recording interval (amg_time = 5000, default is 5 second)
-5. upload the code to your MCU board
-6. turning its power on will start measurement of temperature
+# Installation [mysql]
+1. On MySQL (or MariaDB), run 'schema.sql' to create table
 
-# installation [mysql]
-1. on MySQL (or MariaDB), run 'schema.sql' to create table
+# Installation [web]
+1. Copy all files to a php-enabled folder with access
+2. Make 'images' folder with write permission for all (chmod 777)
+3. Edit 'mysql_setting.php' with your server account
+4. Run 'list8833.php' to navigate recorded data
 
-# installation [web]
-1. copy all files to a php-enabled folder with access
-2. make 'images' folder with write permission for all (chmod 777)
-3. edit 'mysql_setting.php' with your server account
-4. run 'list8833.php' to navigate recorded data
-
-# further notes
-  * developed and tested under PHP 7 (GD enabled), mysql 8, and Apache 2
-  * total number of recording less than 60 won't be visible on the list page (line 10 on 'list8833.php')  
+# Notes
+  * Developed and tested under PHP 7 (GD enabled), MySQL 8, and Apache 2 on Ubuntu 20.04
+  * Total number of recording less than 60 won't be visible on the list page (line 10 on 'list8833.php')  
 
 # etc
-One can use imageMagick to generated animated GIF files. 
-
-$ convert -delay 20 -loop 0 717736_*.png 717736_movie.gif
+  * Tip#1: Use imageMagick to generated animated GIF files. 
+    $ convert -delay 20 -loop 0 717736_*.png 717736_movie.gif
