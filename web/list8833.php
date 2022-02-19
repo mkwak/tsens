@@ -121,7 +121,7 @@ function drawBasic() {
 <?php
 }
 ?>
-* shows records over 5 min only, latest on top.<BR>
+* shows records N > 60 only, latest on top.<BR>
 <TABLE>
 <TR><TD width=100>number</TD><TD width=60><I>N<I/></TD><TD width=200>date time</TD><TD>image</TD><TD width=120>heatmap</TD><TD rowspan=99 VALIGN=TOP STYLE="font-family: Lucida Grande, Arial, sans-serif;font-size: 10px;margin: 10;padding: 0;">
 * Sec, Min., Max., and Max3Avg. <I>T</I> values for the graph<BR>
