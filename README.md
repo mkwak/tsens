@@ -1,6 +1,7 @@
 # tsens
 One can use AMG8833 Grid-EYE thermal sensor to monitor an object.
 For an example of operation, visit http://mkwak.org/tsens/list8833.php?no=529471
+
 ![output as an image](https://github.com/mkwak/tsens/blob/main/example/529471_img.png)
 
 # Installation [device]
