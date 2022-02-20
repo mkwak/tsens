@@ -15,7 +15,7 @@ For an example of operation, visit http://mkwak.org/tsens/list8833.php?no=529471
 # Installation [mysql]
 1. On MySQL (or MariaDB), run 'schema.sql' to create an empty table
 ```
-mysql -h localhost -u USERNAME -p DBNAME < schema.sql
+$ mysql -h localhost -u USERNAME -p DBNAME < schema.sql
 ```
 
 # Installation [web]
