@@ -28,6 +28,8 @@ $ mysql -h localhost -u USERNAME -p DBNAME < schema.sql
 
 # Notes
   * Developed and tested under PHP 7 (GD enabled), MySQL 8, and Apache 2 on Ubuntu 20.04
+  * For MySQL insertion through HTTP-post, we edited a PHP code from Rui Santos to make the PHP work with 8x8 IR sensor.
+  : https://RandomNerdTutorials.com/esp32-esp8266-mysql-database-php/
   * Total number of recording less than 60 won't be visible on the list page (line 10 on 'list8833.php')  
   * Tip#1: Use imageMagick to generated animated GIF files. On command line interface: 
   ```
