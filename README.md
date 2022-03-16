@@ -11,7 +11,7 @@ For an example of operation, visit http://mkwak.org/tsens/list8833.php?no=529471
 4. Edit line 29 of 'amg8833atMCU' with your own recording interval (amg_time = 5000, default is 5 second)
 5. Upload the code to your MCU board
 6. Turning its power on will start measurement of temperature
-
+![output as an image](https://github.com/mkwak/tsens/blob/main/device/pin_mapping.png)
 
 # Installation [mysql]
 1. On MySQL (or MariaDB), run 'schema.sql' to create an empty table
